@@ -20,13 +20,26 @@ def extract_text_from_pdf(pdf_path):
     pdf_reader = PdfReader(pdf_path)
     text = ""
     for page in pdf_reader.pages:
-        text += page.extract_text()
+        # Ensure proper encoding of Arabic text
+        page_text = page.extract_text()
+        # Remove any BOM or special characters that might corrupt Arabic text
+        page_text = page_text.encode('utf-8', errors='ignore').decode('utf-8')
+        text += page_text
     
     print(f"Extracted {len(text)} characters from PDF.")
     return text
 
 def clean_text(text):
-    """Clean extracted text by removing extra whitespace."""
+    """Clean extracted text by removing extra whitespace and ensuring proper Arabic text encoding."""
+    # First ensure proper UTF-8 encoding
+    text = text.encode('utf-8', errors='ignore').decode('utf-8')
+    
+    # Remove any non-Arabic characters that might be causing corruption
+    # Keep Arabic characters, numbers, and basic punctuation
+    arabic_pattern = re.compile(r'[^\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0020-\u002F\u0030-\u0039\u0660-\u0669\u06F0-\u06F9]')
+    text = arabic_pattern.sub(' ', text)
+    
+    # Clean up whitespace
     text = re.sub(r'\s+', ' ', text)
     text = re.sub(r'\n+', '\n', text)
     return text.strip()

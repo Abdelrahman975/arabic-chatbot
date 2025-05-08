@@ -7,8 +7,8 @@ PDF_PATH = "data/FAQ-Arabic.pdf"
 DB_PATH = "data/vector_db"
 
 # Model parameters
-EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-LLM_MODEL = "TheBloke/Llama-2-7B-Chat-GGUF" # Specify your preferred model
+EMBEDDING_MODEL = "CAMeL-Lab/bert-base-arabic-camelbert-mix"  # Better Arabic embedding model
+LLM_MODEL = "aubmindlab/aragpt2-base"  # Arabic-specific model
 DEFAULT_NO_ANSWER_MSG = "عذرًا، لا أملك معلومات كافية للإجابة على هذا السؤال."
 
 # Retrieval parameters
